@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stylish Chatbot</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #667eea, #764ba2, #6dd5ed);
+        background-size: 300% 300%;
+        animation: gradientMove 10s ease infinite;
+    }
+
+    @keyframes gradientMove {
+        0% {background-position: 0% 50%;}
+        50% {background-position: 100% 50%;}
+        100% {background-position: 0% 50%;}
+    }
+
+    .chat-container {
+        width: 360px;
+        backdrop-filter: blur(15px);
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .header {
+        text-align: center;
+        padding: 15px;
+        color: white;
+        font-weight: bold;
+        font-size: 18px;
+        background: rgba(0,0,0,0.2);
+    }
+
+    .chat-box {
+        height: 400px;
+        padding: 10px;
+        overflow-y: auto;
+    }
+
+    .message {
+        padding: 10px;
+        margin: 8px;
+        border-radius: 12px;
+        max-width: 75%;
+        color: #fff;
+    }
+
+    .user {
+        background: rgba(0, 123, 255, 0.7);
+        margin-left: auto;
+        text-align: right;
+    }
+
+    .bot {
+        background: rgba(255, 255, 255, 0.3);
+        margin-right: auto;
+    }
+
+    .input-area {
+        display: flex;
+        border-top: 1px solid rgba(255,255,255,0.2);
+    }
+
+    input {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        outline: none;
+        background: transparent;
+        color: white;
+    }
+
+    input::placeholder {
+        color: #ddd;
+    }
+
+    button {
+        padding: 12px;
+        border: none;
+        background: #ff7eb3;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: #ff4f81;
+    }
+</style>
+
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="header">✨ Stylish Chatbot</div>
+
+    <div class="chat-box" id="chatBox"></div>
+
+    <div class="input-area">
+        <input type="text" id="input" placeholder="Type a message..." onkeypress="handleKey(event)">
+        <button onclick="send()">Send</button>
+    </div>
+</div>
+
+<script>
+    function send() {
+        let input = document.getElementById("input");
+        let text = input.value.trim();
+
+        if (text === "") return;
+
+        addMessage(text, "user");
+        input.value = "";
+
+        setTimeout(() => {
+            let reply = botReply(text);
+            addMessage(reply, "bot");
+        }, 500);
+    }
+
+    function handleKey(e) {
+        if (e.key === "Enter") send();
+    }
+
+    function addMessage(text, type) {
+        let chat = document.getElementById("chatBox");
+        let div = document.createElement("div");
+        div.className = "message " + type;
+        div.innerText = text;
+        chat.appendChild(div);
+        chat.scrollTop = chat.scrollHeight;
+    }
+
+    function botReply(msg) {
+        msg = msg.toLowerCase();
+
+        if (msg.includes("hello") || msg.includes("hi")) {
+            return "Hey there! 😊";
+        }
+        if (msg.includes("how are you")) {
+            return "I'm awesome! How about you?";
+        }
+        if (msg.includes("time")) {
+            return new Date().toLocaleTimeString();
+        }
+        if (msg.includes("date")) {
+            return new Date().toLocaleDateString();
+        }
+        if (msg.includes("bye")) {
+            return "Goodbye! 👋";
+        }
+
+        return "Hmm... I’m still learning 🤖";
+    }
+</script>
+
+</body>
+</html>
